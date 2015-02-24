@@ -4,3 +4,7 @@ dist/
 node_modules/
 .tmp/
 *.zip
+
+
+scripts/bundle.js
+scripts/bundle.js.map

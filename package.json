@@ -1,0 +1,35 @@
+{
+  "name": "pact",
+  "version": "1.0.0",
+  "description": "Unofficial advertisement site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flammenmensch/pact.git"
+  },
+  "keywords": [
+    "pact",
+    "coffee"
+  ],
+  "author": "Flammenmensch <maleventum@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/flammenmensch/pact/issues"
+  },
+  "homepage": "https://github.com/flammenmensch/pact",
+  "devDependencies": {
+    "angular": "^1.3.13",
+    "angular-animate": "^1.3.13",
+    "browserify": "^9.0.3",
+    "gsap": "^1.15.1",
+    "gulp": "^3.8.11",
+    "gulp-ng-annotate": "^0.5.2",
+    "gulp-sourcemaps": "^1.3.0",
+    "gulp-uglify": "^1.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
+  }
+}
