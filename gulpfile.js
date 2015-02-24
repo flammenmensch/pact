@@ -10,7 +10,7 @@ var ngannotate = require('gulp-ng-annotate');
 
 gulp.task('javascript', function() {
     var bundler = browserify({
-        entries: [ './scripts/app/app.js' ],
+        entries: [ './public/scripts/app/app.js' ],
         debug: true
     });
 
@@ -24,14 +24,14 @@ gulp.task('javascript', function() {
             .pipe(ngannotate())
             .pipe(uglify())
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('./scripts/'));
+            .pipe(gulp.dest('./public/scripts/'));
     };
 
     return bundle();
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./scripts/app/**/*.js', [ 'javascript' ]);
+    gulp.watch('./public/scripts/app/**/*.js', [ 'javascript' ]);
 });
 
 gulp.task('default', [ 'watch' ]);

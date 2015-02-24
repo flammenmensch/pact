@@ -6,7 +6,7 @@ module.exports = /*@ngInject*/ function($window, $q) {
     function createHandler(resolve, reject) {
         return function(response) {
             if (response.status === 'connected') {
-                return FB.api('/me?fields=id,picture.type(large)', resolve);
+                return FB.api('/me?fields=id,picture.type(large).width(379).height(379)', resolve);
             }
 
             reject(new Error('Not logged in'));

@@ -214,7 +214,9 @@
     </div>
 
     <div class="vertical screen" ng-if="screenIndex === 1" ng-controller="ChoosePhotoCtrl">
-        <img ng-src="{{picture}}" alt="Profile picture" class="profile-photo">
+        <!--img ng-src="{{picture}}" alt="Profile picture" class="profile-photo"-->
+        <pt-canvas class="profile-photo" faces="faces" url="{{picture}}">
+        </pt-canvas>
 
         <div class="spacer"></div>
 
@@ -225,7 +227,7 @@
             <div class="no-face" ng-if="error">
                 <p>
                     We predict the future in the eyes (not cats),<br>
-                    so they have clearly seen
+                    so they are clearly seen
                 </p>
             </div>
 
@@ -252,9 +254,8 @@
     Unofficial advertisement Pact Coffee
 </footer>
 
-<script src="node_modules/angular/angular.js"></script>
-<script src="node_modules/angular-animate/angular-animate.js"></script>
-<script src="node_modules/gsap/src/uncompressed/TweenLite.js"></script>
+<script src="vendors/angular/angular.js"></script>
+<script src="vendors/angular-animate/angular-animate.js"></script>
 <script src="scripts/bundle.js"></script>
 
 <script>

@@ -2,14 +2,11 @@
 
 angular.module('pact.services', [ ])
     .factory('FacePlusPlusService', require('./services/face-plus-plus-service'))
-    .factory('FacebookService', require('./services/facebook-service'));
+    .factory('FacebookService', require('./services/facebook-service'))
+    .factory('FileUploadService', require('./services/file-upload-service'));
 
 angular.module('pact.directives', [ ])
-    .directive('ptSite', require('./directives/site'))
-    .directive('ptScreen', require('./directives/screen'))
-    .directive('fbButton', require('./directives/fb-button'))
-    .directive('ptHeader', require('./directives/header'))
-    .directive('ptFooter', require('./directives/footer'));
+    .directive('ptCanvas', require('./directives/canvas'));
 
 angular.module('pact.controllers', [ ])
     .controller('WelcomeScreenCtrl', require('./controllers/welcome-screen'))

@@ -1,10 +1,12 @@
 .idea/
 .DS_Store
 dist/
+uploads/
+public/vendors/
 node_modules/
 .tmp/
 *.zip
 
 
-scripts/bundle.js
-scripts/bundle.js.map
+public/scripts/bundle.js
+public/scripts/bundle.js.map
