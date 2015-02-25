@@ -1,10 +1,9 @@
 "use strict";
 
-module.exports = /*@ngInject*/ function($scope, FacebookService, FacePlusPlusService) {
+module.exports = /*@ngInject*/ function($scope, FacebookService, ImageService, FaceDetectionService) {
+    $scope.picture = undefined;
 
-    $scope.picture = '/api/proxy?url=' + encodeURIComponent($scope.user.picture.data.url);
-
-    $scope.loading = false;
+    $scope.loading = true;
 
     $scope.faces = [ ];
     $scope.faceFound = false;
@@ -13,25 +12,28 @@ module.exports = /*@ngInject*/ function($scope, FacebookService, FacePlusPlusSer
     $scope.knowFuture = function() {
         $scope.loading = true;
 
-    };
+        var binary = ImageService.getBlob($scope.picture);
 
-    /*$scope.knowFuture = function() {
-        $scope.loading = true;
-
-        FacePlusPlusService.detectFace($scope.picture).then(function(response) {
-            if (response.data.face.length > 0) {
-                $scope.faces = response.data.face;
-                $scope.faceFound = true;
-                $scope.error = false;
-            } else {
-                $scope.faces = [ ];
-                $scope.faceFound = false;
-                $scope.error = true;
+        FacePlusPlusService.detectFace(binary).then(function(response) {
+            if (!response.data.photos || response.data.photos.length === 0) {
+                throw new Error('Server error');
             }
+
+            if (response.data.photos[0].tags.length === 0) {
+                throw new Error('No faces detected');
+            }
+
+            $scope.faces = response.data.photos[0].tags;
+            $scope.faceFound = true;
+            $scope.error = false;
+        }).catch(function() {
+            $scope.faces = [ ];
+            $scope.faceFound = false;
+            $scope.error = true;
         }).finally(function() {
             $scope.loading = false;
         });
-    };*/
+    };
 
     $scope.shareIt = function() {
         FacebookService.share();
@@ -46,4 +48,12 @@ module.exports = /*@ngInject*/ function($scope, FacebookService, FacePlusPlusSer
     $scope.changePhoto = function() {
         console.log('Change photo click')
     };
+
+    ImageService
+        .loadImage('/api/proxy?url=' + encodeURIComponent('http://images.wisegeek.com/triangular-face.jpg'/*$scope.user.picture.data.url*/))
+        .then(ImageService.getDataUrl)
+        .then(function(dataUrl) {
+            $scope.picture = dataUrl;
+            $scope.loading = false;
+        });
 };

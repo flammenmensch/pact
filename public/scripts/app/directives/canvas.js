@@ -46,7 +46,6 @@ module.exports = /*@ngInject*/ function($document) {
             }
 
             element.on('load', function() {
-                console.log(this);
                 originalImageData = drawImageToCanvas(this);
             });
 

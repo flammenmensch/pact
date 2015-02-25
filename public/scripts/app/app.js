@@ -1,9 +1,9 @@
 "use strict";
 
 angular.module('pact.services', [ ])
-    .factory('FacePlusPlusService', require('./services/face-plus-plus-service'))
+    .factory('FaceDetectionService', require('./services/face-detection-service'))
     .factory('FacebookService', require('./services/facebook-service'))
-    .factory('FileUploadService', require('./services/file-upload-service'));
+    .factory('ImageService', require('./services/image-service'));
 
 angular.module('pact.directives', [ ])
     .directive('ptCanvas', require('./directives/canvas'));
