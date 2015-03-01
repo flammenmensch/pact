@@ -239,7 +239,7 @@
 
         <div class="vertical" ng-if="faceFound">
             <div class="horizontal">
-                <button ng-controller="ShareCtrl as sh" class="blue-button share-it-button" ng-click="sh.share()">Share it</button>
+                <button ng-controller="ShareCtrl" class="blue-button share-it-button" ng-click="share()">{{ sharing ? 'Sharing...' : 'Share it' }}</button>
                 <div class="spacer"></div>
                 <button class="orange-button got-pact-button">Got Pact right now</button>
             </div>
@@ -263,6 +263,7 @@
             appId: '407209469457107',
             cookie: true,
             xfbml: false,
+            fileUpload: true,
             version: 'v2.1'
         });
 

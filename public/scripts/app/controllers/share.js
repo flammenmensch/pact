@@ -1,21 +1,20 @@
 "use strict";
 
 module.exports = /*@ngInject*/ function($scope, PictureModel, ImageService, FacebookService) {
-    var self = this;
-    self.loading = false;
+    $scope.sharing = false;
 
     $scope.share = function() {
-        var binary = ImageService.getBlob(PictureModel.picture);
+        $scope.sharing = true;
 
-        self.sharing = true;
+        var binary = ImageService.getBlob(PictureModel.picture);
 
         FacebookService
             .share(binary)
             .catch(function(err) {
-                console.error('Error sharing photo', err);
+                $scope.$emit('pact:error', err);
             })
             .finally(function() {
-                self.sharing = false;
+                $scope.sharing = false;
             });
     };
 };

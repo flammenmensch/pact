@@ -7,6 +7,13 @@ module.exports = /*@ngInject*/ function($scope, UserModel, PictureModel, ImageSe
 
     $scope.$on('pact:error', function($event, error) {
         console.error('Error handler', error);
+        $scope.error = true;
+    });
+
+    $scope.$on('pact:face-found', function($event, info) {
+        $scope.error = false;
+        $scope.faceFound = true;
+        $scope.faces = info.tags;
     });
 
     $scope.tryAgain = function() {

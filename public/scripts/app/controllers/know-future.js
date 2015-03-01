@@ -16,8 +16,9 @@ module.exports = /*@ngInject*/ function($scope, PictureModel, ImageService, Face
             if (response.data.photos[0].tags.length === 0) {
                 throw new Error('No faces detected');
             }
-        }).catch(function() {
-            console.error('Error detecting face', err);
+
+            $scope.$emit('pact:face-found', response.data.photos[0]);
+        }).catch(function(err) {
             $scope.$emit('pact:error', err);
         }).finally(function() {
             $scope.loading = false;

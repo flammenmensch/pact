@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = /*@ngInject*/ function($window, $q) {
+module.exports = /*@ngInject*/ function($window, $q, $http) {
     var FB = $window.FB;
 
     function createHandler(resolve, reject) {
@@ -32,15 +32,18 @@ module.exports = /*@ngInject*/ function($window, $q) {
             });
         },
 
-        share: function(image) {
-            return $q(function(resolve, reject) {
-                FB.api('/me/photos', 'post', { source: image }, function(response) {
-                    if (response && !response.error_code) {
-                        return resolve(true);
-                    }
+        share: function(binary) {
+            var token = FB.getAccessToken();
+            var fd = new FormData();
 
-                    reject(new Error('Could not share'));
-                });
+            fd.append('access_token', token);
+            fd.append('source', binary);
+            fd.append('message', 'Test');
+
+            return $http.post('https://graph.facebook.com/me/photos?access_token=' + token, fd, {
+                headers: {
+                    'Content-Type': undefined
+                }
             });
         }
     };
