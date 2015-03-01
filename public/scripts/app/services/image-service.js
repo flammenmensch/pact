@@ -17,7 +17,7 @@ module.exports = /*@ngInject*/ function($q) {
             return dataUrl;
         },
 
-        getDataUrl: function getBase64Image(img) {
+        getDataUrl: function(img) {
             var canvas = document.createElement('canvas');
             canvas.width = img.width;
             canvas.height = img.height;
