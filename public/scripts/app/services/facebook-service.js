@@ -22,7 +22,7 @@ module.exports = /*@ngInject*/ function($window, $q) {
 
         login: function() {
             return $q(function(resolve, reject) {
-                FB.login(createHandler(resolve, reject));
+                FB.login(createHandler(resolve, reject), { scope: 'publish_actions' });
             });
         },
 
@@ -32,18 +32,15 @@ module.exports = /*@ngInject*/ function($window, $q) {
             });
         },
 
-        share: function() {
+        share: function(image) {
             return $q(function(resolve, reject) {
-                FB.ui({
-                    method: 'share',
-                    href: 'http://pact-coffee.herokuapp.com'
-                }, function(response) {
+                FB.api('/me/photos', 'post', { source: image }, function(response) {
                     if (response && !response.error_code) {
                         return resolve(true);
                     }
 
                     reject(new Error('Could not share'));
-                })
+                });
             });
         }
     };

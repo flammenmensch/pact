@@ -5,15 +5,23 @@ angular.module('pact.services', [ ])
     .factory('FacebookService', require('./services/facebook-service'))
     .factory('ImageService', require('./services/image-service'));
 
+angular.module('pact.models', [ ])
+    .factory('UserModel', require('./models/user-model'))
+    .factory('PictureModel', require('./models/picture-model'));
+
 angular.module('pact.directives', [ ])
     .directive('ptCanvas', require('./directives/canvas'));
 
-angular.module('pact.controllers', [ ])
+angular.module('pact.controllers', [ 'pact.models', 'pact.services' ])
     .controller('WelcomeScreenCtrl', require('./controllers/welcome-screen'))
-    .controller('ChoosePhotoCtrl', require('./controllers/choose-photo'))
-    .controller('MainCtrl', require('./controllers/main'));
+    .controller('MainScreenCtrl', require('./controllers/main-screen'))
+    .controller('ShareCtrl', require('./controllers/share'))
+    .controller('KnowFutureCtrl', require('./controllers/know-future'))
+    .controller('PictureCtrl', require('./controllers/picture'))
+    .controller('ChangePhotoCtrl', require('./controllers/change-photo'))
+    .controller('AppCtrl', require('./controllers/main'));
 
-angular.module('pact', [ 'ngAnimate', 'pact.services', 'pact.controllers', 'pact.directives' ])
+angular.module('pact', [ 'ngAnimate', 'pact.controllers', 'pact.directives' ])
     .run(function() {
         console.log('Application is up and running!');
     });

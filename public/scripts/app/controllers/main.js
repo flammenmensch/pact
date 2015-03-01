@@ -1,19 +1,19 @@
 "use strict";
 
-module.exports = /*@ngInject*/ function($scope, FacebookService) {
+module.exports = /*@ngInject*/ function($scope, UserModel, FacebookService) {
+    var WELCOME_SCREEN = 0;
+    var MAIN_SCREEN = 1;
 
     $scope.screenIndex = -1;
-
-    $scope.user = null;
 
     function setScreenIndex(index) {
         $scope.screenIndex = index;
     }
 
     function updateLogin(user) {
-        $scope.user = user;
+        UserModel.setUser(user);
 
-        setScreenIndex(1);
+        setScreenIndex(MAIN_SCREEN);
     }
 
     $scope.$on('pact:loggedIn', function($event, user) {
@@ -24,7 +24,7 @@ module.exports = /*@ngInject*/ function($scope, FacebookService) {
         .isLoggedIn()
         .then(updateLogin)
         .catch(function() {
-            $scope.screenIndex = 0;
+            $scope.screenIndex = WELCOME_SCREEN;
         })
         .finally(function() {
             $scope.loading = false;

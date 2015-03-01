@@ -200,7 +200,7 @@
 </head>
 <body ng-cloak>
 
-<div ng-controller="MainCtrl">
+<div ng-controller="AppCtrl">
     <div ng-if="screenIndex === 0" ng-controller="WelcomeScreenCtrl">
         <!-- Add cup, spoon, lemon, sugar -->
         <h1 class="header">
@@ -213,18 +213,16 @@
         </button>
     </div>
 
-    <div class="vertical screen" ng-if="screenIndex === 1" ng-controller="ChoosePhotoCtrl">
-        <img ng-src="{{picture}}" alt="Profile picture" class="profile-photo">
-
-        <!--pt-canvas class="profile-photo" faces="faces" url="{{picture}}">
-        </pt-canvas-->
+    <div class="vertical screen" ng-if="screenIndex === 1" ng-controller="MainScreenCtrl">
+        <img ng-src="{{pictureModel.picture}}" alt="Profile picture" class="profile-photo" ng-controller="PictureCtrl">
 
         <div class="spacer"></div>
 
         <div class="vertical" ng-if="!faceFound">
-            <button ng-if="!error" ng-click="knowFuture()" class="orange-button know-future-button" ng-disabled="loading">
+            <button ng-controller="KnowFutureCtrl" ng-if="!error" ng-click="knowFuture()" class="orange-button know-future-button" ng-disabled="loading">
                 {{ loading ? 'Detecting face...' : 'Know future' }}
             </button>
+
             <div class="no-face" ng-if="error">
                 <p>
                     We predict the future in the eyes (not cats),<br>
@@ -234,14 +232,14 @@
 
             <div class="spacer"></div>
 
-            <button ng-click="changePhoto()" class="transparent-button">
+            <button ng-controller="ChangePhotoCtrl" ng-click="changePhoto()" class="transparent-button">
                 Change photo
             </button>
         </div>
 
         <div class="vertical" ng-if="faceFound">
             <div class="horizontal">
-                <button class="blue-button share-it-button" ng-click="shareIt()">Share it</button>
+                <button ng-controller="ShareCtrl as sh" class="blue-button share-it-button" ng-click="sh.share()">Share it</button>
                 <div class="spacer"></div>
                 <button class="orange-button got-pact-button">Got Pact right now</button>
             </div>
