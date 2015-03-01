@@ -6,6 +6,7 @@
     <meta property="og:description" content="Find out what's waiting for you in the future.">
     <meta property="og:site_name" content="Pact"/>
     <title>Pact</title>
+    <link rel="stylesheet" media="screen" href="styles/loader.css">
     <style type="text/css" media="screen">
         body {
             background-image: url(images/background.jpg);
@@ -208,9 +209,9 @@
             Just sign in via Facebook
         </h1>
 
-        <button class="facebook-button" ng-click="signIn()" ng-disabled="loading">
-            {{ loading ? 'Please, wait...' : 'Sign in via Facebook' }}
-        </button>
+        <pt-loading-button class="facebook-button" ng-click="signIn()" pt-loading="loading">
+            Sign in via Facebook
+        </pt-loading-button>
     </div>
 
     <div class="vertical screen" ng-if="screenIndex === 1" ng-controller="MainScreenCtrl">
@@ -219,9 +220,11 @@
         <div class="spacer"></div>
 
         <div class="vertical" ng-if="!faceFound">
-            <button ng-controller="KnowFutureCtrl" ng-if="!error" ng-click="knowFuture()" class="orange-button know-future-button" ng-disabled="loading">
-                {{ loading ? 'Detecting face...' : 'Know future' }}
-            </button>
+            <div ng-controller="KnowFutureCtrl" ng-if="!error">
+                <pt-loading-button ng-click="knowFuture()" class="orange-button know-future-button" pt-loading="loading">
+                    Know future
+                </pt-loading-button>
+            </div>
 
             <div class="no-face" ng-if="error">
                 <p>
@@ -239,7 +242,11 @@
 
         <div class="vertical" ng-if="faceFound">
             <div class="horizontal">
-                <button ng-controller="ShareCtrl" class="blue-button share-it-button" ng-click="share()">{{ sharing ? 'Sharing...' : 'Share it' }}</button>
+                <div ng-controller="ShareCtrl">
+                    <pt-loading-button class="blue-button share-it-button" ng-click="share()" pt-loading="sharing">
+                        Share it
+                    </pt-loading-button>
+                </div>
                 <div class="spacer"></div>
                 <button class="orange-button got-pact-button">Got Pact right now</button>
             </div>

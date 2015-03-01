@@ -10,6 +10,8 @@ angular.module('pact.models', [ ])
     .factory('PictureModel', require('./models/picture-model'));
 
 angular.module('pact.directives', [ ])
+    .directive('ptLoadingButton', require('./directives/loading-button'))
+    .directive('ptLoader', require('./directives/loader'))
     .directive('ptCanvas', require('./directives/canvas'));
 
 angular.module('pact.controllers', [ 'pact.models', 'pact.services' ])
