@@ -8,6 +8,6 @@ module.exports = function() {
         scope: {
             ptLoading: '=ptLoading'
         },
-        template: '<button type="button"><pt-loader ng-if="ptLoading"></pt-loader><span ng-if="!ptLoading" ng-transclude></span></button>'
+        template: '<button type="button" ng-disabled="ptLoading"><pt-loader ng-if="ptLoading"></pt-loader><span ng-if="!ptLoading" ng-transclude></span></button>'
     };
 };

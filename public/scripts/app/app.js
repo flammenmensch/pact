@@ -3,7 +3,8 @@
 angular.module('pact.services', [ ])
     .factory('FaceDetectionService', require('./services/face-detection-service'))
     .factory('FacebookService', require('./services/facebook-service'))
-    .factory('ImageService', require('./services/image-service'));
+    .factory('ImageService', require('./services/image-service'))
+    .factory('GlFxService', require('./services/glfx-service'));
 
 angular.module('pact.models', [ ])
     .factory('UserModel', require('./models/user-model'))
