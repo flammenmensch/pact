@@ -2,7 +2,6 @@
 .DS_Store
 dist/
 uploads/
-public/vendors/
 node_modules/
 .tmp/
 *.zip
