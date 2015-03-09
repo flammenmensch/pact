@@ -16,6 +16,9 @@ app.route('/api/proxy')
         }
     );
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT || 3000, function(err) {
+    if (err) {
+        return console.error(err);
+    }
     console.log('Server is up and running');
 });
