@@ -7,6 +7,8 @@
     <meta property="og:site_name" content="Pact"/>
     <title>Pact</title>
     <link rel="stylesheet" media="screen" href="styles/loader.css">
+    <link rel="stylesheet" media="screen" href="vendors/ngDialog/css/ngDialog.css">
+    <link rel="stylesheet" media="screen" href="vendors/animate.css/animate.min.css">
     <style type="text/css" media="screen">
         body {
             background-image: url(images/background.jpg);
@@ -29,6 +31,27 @@
             position: absolute;
             width: 100%;
             bottom: 200px;
+        }
+
+        .vigorous {
+            text-align: center;
+            color: #f7ae44;
+            font-size: 21px;
+            position: absolute;
+            width: 500px;
+            top: -110px;
+            left: -250px;
+            line-height: 30px;
+        }
+
+        .vigorous.ng-enter {
+            opacity: 0;
+            -webkit-animation: fadeIn 0.3s;
+            -webkit-animation-delay: 0.5s;
+        }
+
+        .vigorous.ng-leave {
+            -webkit-animation: fadeOut 0.15s;
         }
 
         .facebook-button {
@@ -136,6 +159,12 @@
             width: 125px;
         }
 
+        .orange-button.small {
+            font-size: 18px;
+            height: 45px;
+            width: 90px;
+        }
+
         .transparent-button {
             background: transparent;
             color: #fdb852;
@@ -186,8 +215,18 @@
             width: 19px;
         }
 
+        .spacer-small {
+            width: 7px;
+            height: 7px;
+        }
+
+        .popup-button-panel {
+            justify-content: space-between;
+        }
+
         .horizontal {
             display: flex;
+            width: 100%;
             flex-direction: row;
             align-items: center;
         }
@@ -197,6 +236,118 @@
             flex-direction: column;
             align-items: center;
         }
+
+        .ngdialog.popup {
+            padding-bottom: 45px;
+            padding-top: 45px;
+        }
+
+        .ngdialog.popup .ngdialog-content {
+            width: 630px;
+            height: 655px;
+
+            border: 5px solid #fdb852;
+
+            box-sizing: border-box;
+
+            background: #2b2d33;
+
+            margin: 0 auto;
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ngdialog.popup .ngdialog-close {
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 15px;
+            height: 15px;
+
+            padding: 20px;
+
+            background: url(images/close-popup-button.png);
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+        }
+
+        .ngdialog.popup .ngdialog-close:before {
+            content: '';
+        }
+
+        .camera-stream {
+            width: 100%;
+            height: 100%;
+        }
+
+        .flip.ng-enter {
+            opacity: 0;
+
+            position: absolute;
+            left: -195.5px;
+
+            -webkit-animation: fadeInUp 0.5s;
+            -webkit-animation-delay: 0.75s;
+        }
+
+        .popup-button-wrapper {
+            height: 100px;
+        }
+
+        .popup-button {
+            width: 308px;
+            height: 100px;
+
+            background: #17181b;
+            border: 0;
+            border-radius: 0;
+
+            color: #fdb852;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .flip.ng-leave {
+            opacity: 1;
+
+            position: absolute;
+            left: -195.5px;
+
+            -webkit-animation: fadeOutDown 0.5s;
+        }
+
+        .temp-picture {
+            width: 200px;
+            height: 200px;
+        }
+
+        /*.know-future-wrapper.ng-enter {
+            opacity: 0;
+
+            -webkit-animation: fadeIn 0.5s;
+        }
+
+        .know-future-wrapper.ng-leave {
+            opacity: 1;
+
+            -webkit-animation: fadeOut 0.25s;
+        }
+
+        .no-face.ng-enter {
+            opacity: 0;
+
+            -webkit-animation: fadeIn 0.5s;
+            -webkit-animation-delay: 0.75;
+        }
+
+        .no-face.ng-leave {
+            opacity: 1;
+            -webkit-animation: fadeOut 0.25s;
+        }*/
     </style>
 </head>
 <body ng-cloak>
@@ -215,12 +366,14 @@
     </div>
 
     <div class="vertical screen" ng-if="screenIndex === 1" ng-controller="MainScreenCtrl">
+        <h3 ng-if="faceFound" class="vigorous">You’ll be vigorous. Exactly 24 hours later when<br>you get into the hands of coffee Pact</h3>
+
         <img ng-src="{{pictureModel.picture}}" alt="Profile picture" class="profile-photo" ng-controller="PictureCtrl">
 
         <div class="spacer"></div>
 
-        <div class="vertical" ng-if="!faceFound">
-            <div ng-controller="KnowFutureCtrl" ng-if="!error">
+        <div class="vertical flip" ng-if="!faceFound">
+            <div ng-controller="KnowFutureCtrl" ng-if="!error" class="know-future-wrapper">
                 <pt-loading-button ng-click="knowFuture()" class="orange-button know-future-button" pt-loading="loading">
                     Know future
                 </pt-loading-button>
@@ -235,12 +388,12 @@
 
             <div class="spacer"></div>
 
-            <button ng-controller="ChangePhotoCtrl" ng-click="changePhoto()" class="transparent-button">
+            <button ng-if="!faceFound" ng-controller="ChangePhotoCtrl" ng-click="changePhoto()" class="transparent-button">
                 Change photo
             </button>
         </div>
 
-        <div class="vertical" ng-if="faceFound">
+        <div class="vertical flip" ng-if="faceFound">
             <div class="horizontal">
                 <div ng-controller="ShareCtrl">
                     <pt-loading-button class="blue-button share-it-button" ng-click="share()" pt-loading="sharing">
@@ -260,8 +413,25 @@
     Unofficial advertisement Pact Coffee
 </footer>
 
+<script type="text/ng-template" id="popup">
+    <div class="spacer"></div>
+
+    <img ng-src="{{tempPicture}}" class="temp-picture">
+
+    <div class="spacer"></div>
+    <div class="horizontal">
+        <pt-choose-photo-button></pt-choose-photo-button>
+        <div class="spacer-small"></div>
+        <button class="popup-button"><i class="icon icon-webcam"></i> Camera</button>
+    </div>
+    <div class="spacer"></div>
+    <button class="orange-button small" ng-click="done()">Done</button>
+    <div class="spacer"></div>
+</script>
+
 <script src="vendors/angular/angular.js"></script>
 <script src="vendors/angular-animate/angular-animate.js"></script>
+<script src="vendors/ngDialog/js/ngDialog.js"></script>
 <script src="vendors/glfx.js"></script>
 
 <script src="scripts/bundle.js"></script>

@@ -23,6 +23,14 @@ module.exports = /*@ngInject*/ function($scope, UserModel, PictureModel, ImageSe
         });
     });
 
+    $scope.$on('pact:photo-changed', function($event, picture) {
+        $scope.error = false;
+        $scope.faces = [ ];
+        $scope.faceFound = false;
+
+        PictureModel.setPicture(picture);
+    });
+
     $scope.tryAgain = function() {
         $scope.faces = [ ];
         $scope.faceFound = false;
@@ -33,8 +41,8 @@ module.exports = /*@ngInject*/ function($scope, UserModel, PictureModel, ImageSe
 
     $scope.loadOriginalPicture = function() {
         ImageService
-            .loadImage('/api/proxy?url=' + encodeURIComponent('http://images.wisegeek.com/triangular-face.jpg'))
-            //.loadImage('/api/proxy?url=' + encodeURIComponent(UserModel.user.picture.data.url))
+            //.loadImage('/api/proxy?url=' + encodeURIComponent('http://images.wisegeek.com/triangular-face.jpg'))
+            .loadImage('/api/proxy?url=' + encodeURIComponent(UserModel.user.picture.data.url))
             .then(ImageService.getDataUrl.bind(ImageService))
             .then(function(dataUrl) {
                 PictureModel.setPicture(dataUrl);

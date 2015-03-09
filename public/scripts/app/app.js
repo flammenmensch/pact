@@ -11,6 +11,7 @@ angular.module('pact.models', [ ])
     .factory('PictureModel', require('./models/picture-model'));
 
 angular.module('pact.directives', [ ])
+    .directive('ptChoosePhotoButton', require('./directives/choose-photo-button'))
     .directive('ptLoadingButton', require('./directives/loading-button'))
     .directive('ptLoader', require('./directives/loader'))
     .directive('ptCanvas', require('./directives/canvas'));
@@ -22,9 +23,10 @@ angular.module('pact.controllers', [ 'pact.models', 'pact.services' ])
     .controller('KnowFutureCtrl', require('./controllers/know-future'))
     .controller('PictureCtrl', require('./controllers/picture'))
     .controller('ChangePhotoCtrl', require('./controllers/change-photo'))
+    .controller('PopupCtrl', require('./controllers/popup'))
     .controller('AppCtrl', require('./controllers/main'));
 
-angular.module('pact', [ 'ngAnimate', 'pact.controllers', 'pact.directives' ])
+angular.module('pact', [ 'ngAnimate', 'ngDialog', 'pact.controllers', 'pact.directives' ])
     .run(function() {
         console.log('Application is up and running!');
     });

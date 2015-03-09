@@ -1,68 +1,81 @@
 "use strict";
 
 module.exports = /*@ngInject*/ function($q, GlFxService) {
-    return {
-        loadImage: function(url) {
-            return $q(function(resolve) {
-                var img = new Image();
-                img.src = url;
-                img.onload = function() {
-                    resolve(this);
-                };
-            });
-        },
 
-        createBlankCanvas: function(width, height) {
-            var canvas = document.createElement('canvas');
-            canvas.width = width;
-            canvas.height = height;
+    function loadImage(url) {
+        return $q(function(resolve) {
+            var img = new Image();
+            img.src = url;
+            img.onload = function() {
+                resolve(this);
+            };
+        });
+    }
 
-            return canvas;
-        },
+    function createBlankCanvas(width, height) {
+        var canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
 
-        createImageCanvas: function(img) {
-            var canvas = this.createBlankCanvas(img.width, img.height);
+        return canvas;
+    }
 
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
+    function createImageCanvas(img) {
+        var canvas = createBlankCanvas(img.width, img.height);
 
-            return canvas;
-        },
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
 
-        applyTransformation: function(dataUrl, faces) {
-            return this.loadImage(dataUrl)
-                .then(function(img) {
-                    var canvas = GlFxService.canvas();
-                    var texture = canvas.texture(img);
+        return canvas;
+    }
 
-                    canvas.draw(texture);
+    function applyTransformation(dataUrl, faces) {
+        return loadImage(dataUrl)
+            .then(function(img) {
+                var canvas = GlFxService.canvas();
+                var texture = canvas.texture(img);
 
-                    faces.forEach(function(face) {
-                        canvas.bulgePinch(face.eye_left.x, face.eye_left.y, 50, 0.8);
-                        canvas.bulgePinch(face.eye_right.x, face.eye_right.y, 50, 0.8);
-                    });
+                canvas.draw(texture);
 
-                    canvas.update();
+                faces.forEach(function(face) {
+                    if (face.hasOwnProperty('eye_left')) {
+                        canvas.bulgePinch(face.eye_left.x, face.eye_left.y, 30, 0.5);
+                    }
 
-                    return canvas.toDataURL('image/png');
-                }).catch(function() {
-                    return dataUrl;
+                    if (face.hasOwnProperty('eye_right')) {
+                        canvas.bulgePinch(face.eye_right.x, face.eye_right.y, 30, 0.5);
+                    }
                 });
-        },
 
-        getDataUrl: function(img) {
-            return this.createImageCanvas(img).toDataURL('image/png');
-        },
+                canvas.update();
 
-        getBlob: function(dataUrl) {
-            var binary = atob(dataUrl.split(',')[1]);
-            var array = [ ];
+                return canvas.toDataURL('image/png');
+            }).catch(function() {
+                return dataUrl;
+            });
+    }
 
-            for (var i = 0, n = binary.length; i < n; i++) {
-                array.push(binary.charCodeAt(i));
-            }
+    function getDataUrl(img) {
+        return createImageCanvas(img).toDataURL('image/png');
+    }
 
-            return new Blob([ new Uint8Array(array)], { type: 'image/jpeg' });
+    function getBlob(dataUrl) {
+        var binary = atob(dataUrl.split(',')[1]);
+        var array = [ ];
+
+        for (var i = 0, n = binary.length; i < n; i++) {
+            array.push(binary.charCodeAt(i));
         }
+
+        return new Blob([ new Uint8Array(array)], { type: 'image/jpeg' });
+    }
+
+    return {
+        loadImage: loadImage,
+        createBlankCanvas: createBlankCanvas,
+        createImageCanvas: createImageCanvas,
+        applyTransformation: applyTransformation,
+        getDataUrl: getDataUrl,
+        getBlob: getBlob
     }
 };
