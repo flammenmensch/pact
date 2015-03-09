@@ -4,6 +4,8 @@
   "description": "Unofficial advertisement site",
   "main": "index.js",
   "scripts": {
+    "postInstall": "echo \"Building script...\" && gulp javascript",
+    "start": "echo \"Starting app...\" && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
