@@ -38,7 +38,7 @@ module.exports = /*@ngInject*/ function($window, $q, $http) {
 
             fd.append('access_token', token);
             fd.append('source', binary);
-            fd.append('message', 'Test');
+            fd.append('message', 'I\'m vigorous in the future');
 
             return $http.post('https://graph.facebook.com/me/photos?access_token=' + token, fd, {
                 headers: {
