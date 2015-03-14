@@ -431,6 +431,52 @@
         .popup-camera-screen.ng-enter.ng-enter-active {
             top: 0;
         }
+
+        .element {
+            position: absolute;
+            background-repeat: no-repeat;
+            background-color: transparent;
+        }
+
+        .cup {
+            width: 529px;
+            height: 445px;
+
+            background-image: url(images/cup.png);
+
+            top: 10%;
+            left: calc(50% - 305.5px);
+        }
+
+        .lemon {
+            width: 141px;
+            height: 205px;
+
+            background-image: url(images/limon.png);
+
+            top: 15%;
+            left: 20%;
+        }
+
+        .spoon {
+            width: 226px;
+            height: 374px;
+
+            background-image: url(images/spoon.png);
+
+            top: 15%;
+            right: 15%;
+        }
+
+        .sugar {
+            width: 225px;
+            height: 202px;
+
+            background-image: url(images/sugar.png);
+
+            top: 10%;
+            right: 0;
+        }
     </style>
 </head>
 <body ng-cloak>
@@ -438,6 +484,11 @@
 <div ng-controller="AppCtrl">
     <div ng-if="screenIndex === 0" ng-controller="WelcomeScreenCtrl">
         <!-- Add cup, spoon, lemon, sugar -->
+        <i class="element cup"></i>
+        <i class="element spoon"></i>
+        <i class="element lemon"></i>
+        <i class="element sugar"></i>
+
         <h1 class="header">
             Find out what's waiting for you in the future.<br>
             Just sign in via Facebook
