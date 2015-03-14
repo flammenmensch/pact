@@ -1,27 +1,27 @@
 "use strict";
 
-module.exports = /*@ngInject*/ function($scope, $window, PictureModel) {
-    $scope.stream = undefined;
+module.exports = /*@ngInject*/ function($scope, PictureModel) {
     $scope.tempPicture = PictureModel.picture;
+    $scope.showCamera = false;
 
     $scope.done = function() {
         $scope.closeThisDialog($scope.tempPicture);
-    };
-
-    $scope.init = function() {
-        /*$window.navigator.webkitGetUserMedia({ video: true }, function(stream) {
-            $scope.stream = $window.URL.createObjectURL(stream);
-        }, console.error);*/
     };
 
     $scope.$on('pact:file-selected', function($event, dataUrl) {
         $scope.tempPicture = dataUrl;
     });
 
-    $scope.$on('$destroy', function() {
-        $window.URL.revokeObjectURL($scope.stream);
-        $scope.stream = null;
+    $scope.camera = function() {
+        $scope.showCamera = true;
+    };
+
+    $scope.$on('pact:camera-done', function($event, dataUrl) {
+        $scope.showCamera = false;
+        $scope.tempPicture = dataUrl;
     });
 
-    $scope.init();
+    $scope.$on('pact:camera-cancel', function() {
+        $scope.showCamera = false;
+    });
 };

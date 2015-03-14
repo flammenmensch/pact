@@ -261,9 +261,7 @@
             margin: 0 auto;
             position: relative;
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow: hidden;
         }
 
         .ngdialog.popup .ngdialog-close {
@@ -288,6 +286,8 @@
         .camera-stream {
             width: 100%;
             height: 100%;
+            top: 0;
+            position: absolute;
         }
 
         .flip.ng-enter {
@@ -331,29 +331,106 @@
             height: 200px;
         }
 
-        /*.know-future-wrapper.ng-enter {
-            opacity: 0;
+        .popup-main-screen {
+            width: 100%;
+            height: 100%;
 
-            -webkit-animation: fadeIn 0.5s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .know-future-wrapper.ng-leave {
-            opacity: 1;
+        .popup-camera-screen {
+            z-index: 10;
 
-            -webkit-animation: fadeOut 0.25s;
+            position: absolute;
+            background: #000;
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            transition: all 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940); /* easeOutQuad */
+            transition-timing-function: cubic-bezier(0.250, 0.460, 0.450, 0.940); /* easeOutQuad */
+
+            top: 0;
         }
 
-        .no-face.ng-enter {
-            opacity: 0;
+        .popup-camera-screen > .control-panel {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
 
-            -webkit-animation: fadeIn 0.5s;
-            -webkit-animation-delay: 0.75;
+            width: 100%;
+            height: 100px;
+
+            background: rgba(30, 32, 36, 0.7);
+
+            z-index: 11;
         }
 
-        .no-face.ng-leave {
-            opacity: 1;
-            -webkit-animation: fadeOut 0.25s;
-        }*/
+        .popup-camera-screen > .preview {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            max-width: 150px;
+            max-height: 150px;
+
+            transition: all 500ms cubic-bezier(0.250, 0.460, 0.450, 0.940); /* easeOutQuad */
+            transition-timing-function: cubic-bezier(0.250, 0.460, 0.450, 0.940); /* easeOutQuad */
+        }
+
+        .popup-camera-screen > .preview.ng-enter,
+        .popup-camera-screen > .preview.ng-leave.ng-leave-active {
+            right: -150px;
+        }
+
+        .popup-camera-screen > .preview.ng-leave,
+        .popup-camera-screen > .preview.ng-enter.ng-enter-active {
+            right: 0;
+        }
+
+        .popup-camera-screen > .arrow-button {
+            width: 30px;
+            height: 30px;
+
+            position: absolute;
+
+            top: 20px;
+            left: 20px;
+
+            background-color: transparent;
+            background-image: url(images/arrow.png);
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+
+            border: none;
+        }
+
+        .popup-camera-screen > .control-panel > .preview-controls {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 100px;
+        }
+
+        .popup-camera-screen.ng-enter,
+        .popup-camera-screen.ng-leave.ng-leave-active {
+            top: 100%;
+        }
+
+        .popup-main-screen.ng-leave,
+        .popup-camera-screen.ng-enter.ng-enter-active {
+            top: 0;
+        }
     </style>
 </head>
 <body ng-cloak>
@@ -420,19 +497,39 @@
 </footer>
 
 <script type="text/ng-template" id="popup">
-    <div class="spacer"></div>
+    <div class="popup-main-screen">
+        <div class="spacer"></div>
 
-    <img ng-src="{{tempPicture}}" class="temp-picture">
+        <img ng-src="{{tempPicture}}" class="temp-picture">
 
-    <div class="spacer"></div>
-    <div class="horizontal">
-        <pt-choose-photo-button></pt-choose-photo-button>
-        <div class="spacer-small"></div>
-        <button class="popup-button"><i class="icon icon-webcam"></i> Camera</button>
+        <div class="spacer"></div>
+        <div class="horizontal">
+            <pt-choose-photo-button></pt-choose-photo-button>
+            <div class="spacer-small"></div>
+            <button class="popup-button" ng-click="camera()"><i class="icon icon-webcam"></i> Camera</button>
+        </div>
+        <div class="spacer"></div>
+        <button class="orange-button small" ng-click="done()">Done</button>
+        <div class="spacer"></div>
     </div>
-    <div class="spacer"></div>
-    <button class="orange-button small" ng-click="done()">Done</button>
-    <div class="spacer"></div>
+
+    <div class="popup-camera-screen" ng-if="showCamera" ng-controller="CameraScreenCtrl">
+        <pt-video-component class="camera-stream"></pt-video-component>
+
+        <img class="preview" ng-if="picture" ng-src="{{picture}}">
+
+        <button class="arrow-button" ng-click="back()"></button>
+
+        <div class="control-panel">
+            <button ng-if="!preview" class="orange-button small" ng-click="takePicture()">Shoot</button>
+
+            <div ng-if="preview" class="preview-controls">
+                <button class="transparent-button small" ng-click="reshoot()">Reshoot</button>
+                <div class="spacer"></div>
+                <button class="orange-button small" ng-click="done()">Done</button>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script src="vendors/angular/angular.min.js"></script>

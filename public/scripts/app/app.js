@@ -14,6 +14,7 @@ angular.module('pact.directives', [ ])
     .directive('ptChoosePhotoButton', require('./directives/choose-photo-button'))
     .directive('ptLoadingButton', require('./directives/loading-button'))
     .directive('ptLoader', require('./directives/loader'))
+    .directive('ptVideoComponent', require('./directives/video-component'))
     .directive('ptCanvas', require('./directives/canvas'));
 
 angular.module('pact.controllers', [ 'pact.models', 'pact.services' ])
@@ -24,6 +25,7 @@ angular.module('pact.controllers', [ 'pact.models', 'pact.services' ])
     .controller('PictureCtrl', require('./controllers/picture'))
     .controller('ChangePhotoCtrl', require('./controllers/change-photo'))
     .controller('PopupCtrl', require('./controllers/popup'))
+    .controller('CameraScreenCtrl', require('./controllers/camera-screen'))
     .controller('AppCtrl', require('./controllers/main'));
 
 angular.module('pact', [ 'ngAnimate', 'ngDialog', 'pact.controllers', 'pact.directives' ])
