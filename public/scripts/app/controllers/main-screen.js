@@ -43,7 +43,7 @@ module.exports = /*@ngInject*/ function($scope, UserModel, PictureModel, ImageSe
         ImageService
             //.loadImage('/api/proxy?url=' + encodeURIComponent('http://images.wisegeek.com/triangular-face.jpg'))
             .loadImage('/api/proxy?url=' + encodeURIComponent(UserModel.user.picture.data.url))
-            .then(ImageService.getDataUrl.bind(ImageService))
+            .then(ImageService.getDataUrl)
             .then(function(dataUrl) {
                 PictureModel.setPicture(dataUrl);
             })
