@@ -34,7 +34,9 @@
     <div class="vertical screen" ng-if="screenIndex === 1" ng-controller="MainScreenCtrl">
         <h3 ng-if="faceFound" class="vigorous">You’ll be vigorous. Exactly 24 hours later when<br>you get into the hands of coffee Pact</h3>
 
-        <img ng-src="{{pictureModel.picture}}" alt="Profile picture" class="profile-photo" ng-controller="PictureCtrl">
+        <div class="profile-photo-wrapper">
+            <img ng-src="{{pictureModel.picture}}" alt="Profile picture" class="profile-photo" ng-controller="PictureCtrl">
+        </div>
 
         <div class="spacer"></div>
 

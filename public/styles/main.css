@@ -85,15 +85,23 @@ button {
     z-index: -10;
 }
 
-.profile-photo {
+.profile-photo-wrapper {
     width: 391px;
     height: 391px;
 
-    border: 6px solid #fdb852;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    border: 6px solid #fdb852;
     box-sizing: border-box;
 
     background: #000;
+}
+
+.profile-photo {
+    max-width: 379px;
+    max-height: 379px;
 }
 
 .orange-button {
@@ -281,8 +289,8 @@ a.orange-button {
 .profile-photo-thumbnail {
     margin: 0 19px 0 0;
     cursor: pointer;
-    width: 116px;
-    height: 116px;
+    max-width: 116px;
+    max-height: 116px;
 }
 
 .profile-photo-thumbnail:last-child {
@@ -333,7 +341,6 @@ a.orange-button {
 }
 
 .temp-picture {
-    width: 200px;
     height: 200px;
 }
 
