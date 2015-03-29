@@ -3,6 +3,7 @@
 module.exports = /*@ngInject*/ function($scope, PictureModel, ImageService, FacebookService) {
     $scope.tempPicture = PictureModel.picture;
     $scope.showCamera = false;
+    $scope.showAlbums = false;
     $scope.profilePhotos = [ ];
 
     $scope.done = function() {
@@ -15,6 +16,10 @@ module.exports = /*@ngInject*/ function($scope, PictureModel, ImageService, Face
 
     $scope.camera = function() {
         $scope.showCamera = true;
+    };
+
+    $scope.albums = function() {
+        $scope.showAlbums = true;
     };
 
     $scope.selectPhoto = function(photo) {
@@ -30,8 +35,8 @@ module.exports = /*@ngInject*/ function($scope, PictureModel, ImageService, Face
     };
 
     $scope.loadProfilePhotos = function() {
-        FacebookService.getProfilePhotos().then(function(photos) {
-            $scope.profilePhotos = photos.slice(0, 4);
+        FacebookService.getFourProfilePhotos().then(function(photos) {
+            $scope.profilePhotos = photos;
         }).catch(function(err) {
             console.error(err);
         });
@@ -44,6 +49,15 @@ module.exports = /*@ngInject*/ function($scope, PictureModel, ImageService, Face
 
     $scope.$on('pact:camera-cancel', function() {
         $scope.showCamera = false;
+    });
+
+    $scope.$on('pact:albums-done', function($event, dataUrl) {
+        $scope.showAlbums = false;
+        $scope.tempPicture = dataUrl;
+    });
+
+    $scope.$on('pact:albums-cancel', function() {
+        $scope.showAlbums = false;
     });
 
     $scope.loadProfilePhotos();

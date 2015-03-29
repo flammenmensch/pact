@@ -2,7 +2,7 @@
 
 module.exports = /*@ngInject*/ function($window, $q, $cacheFactory, $http) {
     var FB = $window.FB;
-    var profilePhotoCache = $cacheFactory('profile-photos');
+    var cache = $cacheFactory('facebook-cache');
 
     function createHandler(resolve, reject) {
         return function(response) {
@@ -48,13 +48,18 @@ module.exports = /*@ngInject*/ function($window, $q, $cacheFactory, $http) {
     }
 
     function getUserAlbums() {
-        return $q(function(resolve, reject) {
+        var albums = cache.get('albums');
+
+        return albums ? $q.when(albums) : $q(function(resolve, reject) {
             FB.api('/me/albums', function(response) {
                 if (response.error) {
                     return reject(response.error);
                 }
 
-                resolve(response.data || [ ]);
+                var albums = response.data || [ ];
+                cache.put('albums', albums);
+
+                resolve(albums);
             });
         });
     }
@@ -91,15 +96,21 @@ module.exports = /*@ngInject*/ function($window, $q, $cacheFactory, $http) {
     }
 
     function getProfilePhotos() {
-        var photos = profilePhotoCache.get('photos');
+        var photos = cache.get('profilePhotos');
 
         return photos ? $q.when(photos) : getUserAlbums()
             .then(getProfileAlbum)
             .then(getAlbumPhotos)
             .then(function(photos) {
-                profilePhotoCache.put('photos', photos);
+                cache.put('profilePhotos', photos);
                 return photos;
             });
+    }
+
+    function getFourProfilePhotos() {
+        return getProfilePhotos().then(function(photos) {
+            return photos.slice(0, 4);
+        });
     }
 
     return {
@@ -110,6 +121,7 @@ module.exports = /*@ngInject*/ function($window, $q, $cacheFactory, $http) {
         getUserAlbums: getUserAlbums,
         getProfileAlbum: getProfileAlbum,
         getAlbumPhotos: getAlbumPhotos,
-        getProfilePhotos: getProfilePhotos
+        getProfilePhotos: getProfilePhotos,
+        getFourProfilePhotos: getFourProfilePhotos
     };
 };

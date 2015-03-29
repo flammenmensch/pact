@@ -8,8 +8,7 @@
     <title>Pact</title>
     <link rel="stylesheet" media="screen" href="vendors/ngDialog/ngDialog.min.css">
     <link rel="stylesheet" media="screen" href="vendors/animate.css/animate.min.css">
-    <link rel="stylesheet" media="screen" href="styles/main.css">
-    <link rel="stylesheet" media="screen" href="styles/loader.css">
+    <link rel="stylesheet" media="screen" href="styles/all.css">
 </head>
 <body ng-cloak>
 
@@ -81,6 +80,24 @@
     Unofficial advertisement Pact Coffee
 </footer>
 
+<script type="text/ng-template" id="dropdown">
+    <div class="dropdown-container" ng-class="{ show: listVisible }">
+        <div class="dropdown-display" ng-click="show();" ng-class="{ clicked: listVisible }">
+            <span ng-if="!isPlaceholder">{{display}}</span>
+		<span class="placeholder" ng-if="isPlaceholder">{{placeholder}}</span>
+		<i class="fa fa-angle-down"></i>
+        </div>
+        <div class="dropdown-list">
+            <div>
+                <div ng-repeat="item in list" ng-click="select(item)" ng-class="{ selected: isSelected(item) }">
+                    <span>{{property !== undefined ? item[property] : item}}</span>
+                    <i class="fa fa-check"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script type="text/ng-template" id="popup">
     <div class="popup-main-screen">
         <div class="spacer"></div>
@@ -92,6 +109,10 @@
         <div class="profile-photo-list">
             <img class="profile-photo-thumbnail" ng-repeat="photo in profilePhotos track by photo.id" ng-src="{{photo.picture}}" ng-click="selectPhoto(photo)">
         </div>
+
+        <div class="spacer"></div>
+
+        <button class="see-all-photos-button" ng-click="albums()">See all photos from Facebook</button>
 
         <div class="spacer"></div>
 
@@ -110,7 +131,7 @@
 
         <img class="preview" ng-if="picture" ng-src="{{picture}}">
 
-        <button class="arrow-button" ng-click="back()"></button>
+        <button class="control-button back" ng-click="back()"></button>
 
         <div class="control-panel">
             <button ng-if="!preview" class="orange-button small" ng-click="takePicture()">Shoot</button>
@@ -121,6 +142,30 @@
                 <button class="orange-button small" ng-click="done()">Done</button>
             </div>
         </div>
+    </div>
+
+    <div class="popup-albums-screen" ng-if="showAlbums" ng-controller="AlbumsScreenCtrl">
+        <div class="control-panel">
+            <button ng-click="back()" class="control-button back"></button>
+
+            <pt-dropdown list="albums" selected="selectedAlbum" property="name"></pt-dropdown>
+
+            <!--select ng-change="loadPhotos()" required ng-model="selectedAlbum" ng-options="album as album.name for album in albums">
+            </select-->
+
+            <button ng-click="done()" class="control-button done"></button>
+        </div>
+
+        <div class="spacer"></div>
+
+        <ul class="photo-list" ng-if="!loading">
+            <li class="photo-list-item" ng-repeat="photo in photos track by photo.id" ng-click="select(photo)" ng-class="{ selected: selectedPhoto === photo }">
+                <img ng-src="{{photo.picture}}" ng-click="markSelected(photo)">
+            </li>
+        </ul>
+
+        <span class="empty-album" ng-if="isEmpty()">Empty album</span>
+
     </div>
 </script>
 
